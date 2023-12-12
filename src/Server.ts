@@ -5,11 +5,13 @@ import "@tsed/platform-express"; // /!\ keep this import
 import "@tsed/ajv";
 import { config } from "./config/index";
 import * as rest from "./controllers/index";
+import cors from "cors"
 
 @Configuration({
   ...config,
   acceptMimes: ["application/json"],
   httpPort: process.env.PORT || 8083,
+  httpServer: { cors: true },
   httpsPort: false, // CHANGE
   disableComponentsScan: true,
   mount: {
@@ -35,9 +37,19 @@ import * as rest from "./controllers/index";
 })
 
 
+
 export class Server {
   @Inject()
   protected app: PlatformApplication;
+
+  $beforeRoutesInit() {
+    this.app
+      .use(cors({
+        origin: ['http://amoldevops.xyz', 'http://localhost:4321'],
+        allowedHeaders: "*"
+      }))
+    return null;
+  }
 
   @Configuration()
   protected settings: Configuration;

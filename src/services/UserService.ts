@@ -1,4 +1,5 @@
 import { Injectable } from "@tsed/di";
+import { Auth } from "src/viewModels.ts/AuthViewModel";
 
 @Injectable()
 export class UserService {
@@ -23,6 +24,25 @@ export class UserService {
                 age: 28,
             },
         ]
+    }
+
+    async signIn(signInData: Auth): Promise<User | undefined> {
+        console.log('signInData', signInData)
+
+        try {
+            if (signInData.username) {
+                return {
+                    id: 1,
+                    name: 'John Doe',
+                    email: 'john@example.com',
+                    age: 25,
+                }
+            }
+        } catch (error: any) {
+
+            throw (error)
+        }
+
     }
 
 
